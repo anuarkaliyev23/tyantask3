@@ -1,11 +1,15 @@
 package main;
 
+import main.exceptions.InvalidBoatSizeException;
 import main.exceptions.OutOfBoundCoordinatesException;
 import main.exceptions.UnexpectedEdgingCoordinatesException;
 import main.exceptions.UnexpectedNotEdgingCoordinatesExceptions;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class OwnBoard {
     private static final int BOARD_SIZE = 10;
+    private static final int MAX_BOAT_SIZE = 4;
     private boolean[][] board;
 
     public OwnBoard() {
@@ -86,7 +90,22 @@ public class OwnBoard {
     }
 
     private void placeBoat(int size) {
-//
+        if (size < 0 || size > MAX_BOAT_SIZE) throw new InvalidBoatSizeException();
+
+        int x = ThreadLocalRandom.current().nextInt(BOARD_SIZE);
+        int y = ThreadLocalRandom.current().nextInt(BOARD_SIZE);
+
+        if (x < BOARD_SIZE - size) {
+            for (int i = x; i <= x + size; i++) {
+                board[i][y] = true;
+            }
+        } if (y < BOARD_SIZE - size) {
+            for (int j = y; j <= y + size; j++) {
+                board[x][j] = true;
+            }
+        } else {
+            placeBoat(size);
+        }
     }
 
 }
