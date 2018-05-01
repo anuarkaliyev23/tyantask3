@@ -8,15 +8,26 @@ import main.exceptions.UnexpectedNotEdgingCoordinatesExceptions;
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class OwnBoard {
-    private static final int BOARD_SIZE = 10;
+public class Board {
+    public static final int BOARD_SIZE = 10;
     private static final int MAX_BOAT_SIZE = 4;
 
     private boolean[][] board;
 
-    public OwnBoard() {
+    public Board() {
         board = new boolean[BOARD_SIZE][BOARD_SIZE];
         placeAllBoats();
+    }
+
+    public boolean getValue(int x, int y) {
+        checkCoordinatesInBounds(x);
+        checkCoordinatesInBounds(y);
+
+        return board[x][y];
+    }
+
+    private void checkCoordinatesInBounds(int coordinate) {
+        if (coordinate < 0 || coordinate >= BOARD_SIZE) throw new OutOfBoundCoordinatesException();
     }
 
     private void placeAllBoats() {
@@ -30,12 +41,13 @@ public class OwnBoard {
     }
 
     private boolean isEdgeCoordinate(int coordinate) {
-        if (coordinate < 0 || coordinate >= BOARD_SIZE) throw new OutOfBoundCoordinatesException();
+        checkCoordinatesInBounds(coordinate);
         return (coordinate == 0 || coordinate == BOARD_SIZE - 1);
     }
 
     private boolean isAvailableForPlacement(int x, int y) {
-        if (x < 0 || x >= BOARD_SIZE || y < 0 || y >= BOARD_SIZE) throw new OutOfBoundCoordinatesException();
+        checkCoordinatesInBounds(x);
+        checkCoordinatesInBounds(y);
 
         if (isEdgeCoordinate(x) && !isEdgeCoordinate(y)) {
             return isAvailableForPlacementEdgeX(x, y);
@@ -145,7 +157,7 @@ public class OwnBoard {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OwnBoard ownBoard = (OwnBoard) o;
+        Board ownBoard = (Board) o;
         return Arrays.equals(board, ownBoard.board);
     }
 
