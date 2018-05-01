@@ -92,13 +92,13 @@ public class Board {
         if (!isEdgeCoordinate(x) || !isEdgeCoordinate(y)) throw new UnexpectedNotEdgingCoordinatesExceptions();
 
         if (x == 0 && y == 0) {
-            return !(board[x][y] || board[x + 1][y] || board[x + 1][y - 1] || board[x][y - 1]);
-        } else if (x == 0 && y == BOARD_SIZE - 1) {
             return !(board[x][y] || board[x + 1][y] || board[x + 1][y + 1] || board[x][y + 1]);
+        } else if (x == 0 && y == BOARD_SIZE - 1) {
+            return !(board[x][y] || board[x + 1][y] || board[x + 1][y - 1] || board[x][y - 1]);
         } else if (x == BOARD_SIZE - 1 && y == 0) {
-            return !(board[x][y] || board[x - 1][y] || board[x - 1][y - 1] || board[x][y - 1]);
-        } else {
             return !(board[x][y] || board[x - 1][y] || board[x - 1][y + 1] || board[x][y + 1]);
+        } else {
+            return !(board[x][y] || board[x - 1][y] || board[x - 1][y - 1] || board[x][y - 1]);
         }
     }
 
