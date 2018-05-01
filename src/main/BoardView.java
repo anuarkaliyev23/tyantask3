@@ -60,7 +60,6 @@ public class BoardView {
 
     @Override
     public int hashCode() {
-
         int result = Objects.hash(board);
         result = 31 * result + Arrays.hashCode(boardCellView);
         return result;
