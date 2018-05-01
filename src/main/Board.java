@@ -32,7 +32,7 @@ public class Board {
 
     private void placeAllBoats() {
         int count = 1;
-        for (int i = MAX_BOAT_SIZE; i >= 0; i--) { //size
+        for (int i = MAX_BOAT_SIZE; i > 0; i--) { //size
             for (int j = 0; j <= count; j++) {
                 placeBoat(i);
             }
@@ -125,20 +125,20 @@ public class Board {
             available[i] = false;
         }
 
-        if (x < BOARD_SIZE - size) {
-            for (int i = x; i <= x + size; i++) {
-                available[i] = isAvailableForPlacement(i, y);
+        if (x + size < BOARD_SIZE) {
+            for (int i = x; i < x + size; i++) {
+                available[i - x] = isAvailableForPlacement(i, y);
             }
-        } if (y < BOARD_SIZE - size) {
-            for (int j = y; j <= y + size; j++) {
-                available[j] = isAvailableForPlacement(x, j);
+        } else if (y + size < BOARD_SIZE) {
+            for (int j = y; j < y + size; j++) {
+                available[j - y] = isAvailableForPlacement(x, j);
             }
         } else {
             placeBoat(size);
         }
 
         if (allArrayElementsAreTrue(available)) {
-            placeBoat(size);
+            board[x][y] = true;
         }
     }
 
