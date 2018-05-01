@@ -33,7 +33,7 @@ public class Board {
     private void placeAllBoats() {
         int count = 1;
         for (int i = MAX_BOAT_SIZE; i > 0; i--) { //size
-            for (int j = 0; j <= count; j++) {
+            for (int j = 0; j < count; j++) {
                 placeBoat(i);
             }
             count++;
@@ -92,13 +92,13 @@ public class Board {
         if (!isEdgeCoordinate(x) || !isEdgeCoordinate(y)) throw new UnexpectedNotEdgingCoordinatesExceptions();
 
         if (x == 0 && y == 0) {
-            return !(board[x][y] || board[x + 1][y] || board[x + 1][y + 1] || board[x][y + 1]);
-        } else if (x == 0 && y == BOARD_SIZE - 1) {
             return !(board[x][y] || board[x + 1][y] || board[x + 1][y - 1] || board[x][y - 1]);
+        } else if (x == 0 && y == BOARD_SIZE - 1) {
+            return !(board[x][y] || board[x + 1][y] || board[x + 1][y + 1] || board[x][y + 1]);
         } else if (x == BOARD_SIZE - 1 && y == 0) {
-            return !(board[x][y] || board[x - 1][y] || board[x - 1][y - 1] || board[x][y + 1]);
-        } else {
             return !(board[x][y] || board[x - 1][y] || board[x - 1][y - 1] || board[x][y - 1]);
+        } else {
+            return !(board[x][y] || board[x - 1][y] || board[x - 1][y + 1] || board[x][y + 1]);
         }
     }
 
@@ -121,15 +121,15 @@ public class Board {
         int y = ThreadLocalRandom.current().nextInt(BOARD_SIZE);
 
         boolean[] available = new boolean[size];
-        for (int i = 0; i < size; i++) {
-            available[i] = false;
-        }
+        boolean horizontal = true;
 
         if (x + size < BOARD_SIZE) {
+            horizontal = true;
             for (int i = x; i < x + size; i++) {
                 available[i - x] = isAvailableForPlacement(i, y);
             }
         } else if (y + size < BOARD_SIZE) {
+            horizontal = false;
             for (int j = y; j < y + size; j++) {
                 available[j - y] = isAvailableForPlacement(x, j);
             }
@@ -138,7 +138,15 @@ public class Board {
         }
 
         if (allArrayElementsAreTrue(available)) {
-            board[x][y] = true;
+            if (horizontal) {
+                for (int i = x; i < x + size; i++) {
+                    board[i][y] = true;
+                }
+            } else {
+                for (int j = 0; j < y + size; j++) {
+                    board[x][j] = true;
+                }
+            }
         }
     }
 
