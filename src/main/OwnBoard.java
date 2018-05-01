@@ -5,15 +5,28 @@ import main.exceptions.OutOfBoundCoordinatesException;
 import main.exceptions.UnexpectedEdgingCoordinatesException;
 import main.exceptions.UnexpectedNotEdgingCoordinatesExceptions;
 
+import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class OwnBoard {
     private static final int BOARD_SIZE = 10;
     private static final int MAX_BOAT_SIZE = 4;
+
     private boolean[][] board;
 
     public OwnBoard() {
         board = new boolean[BOARD_SIZE][BOARD_SIZE];
+        placeAllBoats();
+    }
+
+    private void placeAllBoats() {
+        int count = 1;
+        for (int i = MAX_BOAT_SIZE; i >= 0; i--) { //size
+            for (int j = 0; j <= count; j++) {
+                placeBoat(i);
+            }
+            count++;
+        }
     }
 
     private boolean isEdgeCoordinate(int coordinate) {
@@ -95,17 +108,49 @@ public class OwnBoard {
         int x = ThreadLocalRandom.current().nextInt(BOARD_SIZE);
         int y = ThreadLocalRandom.current().nextInt(BOARD_SIZE);
 
+        boolean[] available = new boolean[size];
+        for (int i = 0; i < size; i++) {
+            available[i] = false;
+        }
+
         if (x < BOARD_SIZE - size) {
             for (int i = x; i <= x + size; i++) {
-                board[i][y] = true;
+                available[i] = isAvailableForPlacement(i, y);
             }
         } if (y < BOARD_SIZE - size) {
             for (int j = y; j <= y + size; j++) {
-                board[x][j] = true;
+                available[j] = isAvailableForPlacement(x, j);
             }
         } else {
             placeBoat(size);
         }
+
+        if (allArrayElementsAreTrue(available)) {
+            placeBoat(size);
+        }
     }
 
+    private boolean allArrayElementsAreTrue(boolean[] values) {
+        for (boolean value : values) {
+            if (!value) return false;
+        }
+        return true;
+    }
+
+    public boolean[][] getBoard() {
+        return board;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OwnBoard ownBoard = (OwnBoard) o;
+        return Arrays.equals(board, ownBoard.board);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(board);
+    }
 }
