@@ -35,25 +35,53 @@ public class OwnBoard {
         if (!isEdgeCoordinate(x)) throw new UnexpectedNotEdgingCoordinatesExceptions();
         if (isEdgeCoordinate(y)) throw new UnexpectedEdgingCoordinatesException();
 
-        throw new UnsupportedOperationException();
+        int offset;
+        if (x == 0) {
+            offset = 1;
+        } else {
+            offset = -1;
+        }
+
+        return !(board[x][y] || board[x][y + 1] || board[x + offset][y + 1] || board[x + offset][y] || board[x + offset][y - 1] || board[x][y - 1]);
     }
 
     private boolean isAvailableForPlacementEdgeY(int x, int y) {
         if (!isEdgeCoordinate(y)) throw new UnexpectedNotEdgingCoordinatesExceptions();
         if (isEdgeCoordinate(x)) throw new UnexpectedEdgingCoordinatesException();
 
-        throw new UnsupportedOperationException();
+        int offset;
+        if (y == 0) {
+            offset = 1;
+        } else {
+            offset = -1;
+        }
+
+        return !(board[x][y] || board[x - 1][y] || board[x - 1][y + offset] || board[x][y + offset] || board[x + 1][y + offset] || board[x + 1][y]);
     }
 
     private boolean isAvailableForPlacementEdgeBoth(int x, int y) {
         if (!isEdgeCoordinate(x) || !isEdgeCoordinate(y)) throw new UnexpectedNotEdgingCoordinatesExceptions();
 
-        throw new UnsupportedOperationException();
+        if (x == 0 && y == 0) {
+            return !(board[x][y] || board[x + 1][y] || board[x + 1][y + 1] || board[x][y + 1]);
+        } else if (x == 0 && y == BOARD_SIZE - 1) {
+            return !(board[x][y] || board[x + 1][y] || board[x + 1][y - 1] || board[x][y - 1]);
+        } else if (x == BOARD_SIZE - 1 && y == 0) {
+            return !(board[x][y] || board[x - 1][y] || board[x - 1][y - 1] || board[x][y + 1]);
+        } else {
+            return !(board[x][y] || board[x - 1][y] || board[x - 1][y - 1] || board[x][y - 1]);
+        }
     }
 
     private boolean isAvailableForPlacementMiddleBoth(int x,int y) {
         if (isEdgeCoordinate(x) || isEdgeCoordinate(y)) throw new UnexpectedEdgingCoordinatesException();
-        throw new UnsupportedOperationException();
+
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                if (board[i][j]) return false;
+            }
+        }
+        return true;
     }
 
 }
