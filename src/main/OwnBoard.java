@@ -73,7 +73,7 @@ public class OwnBoard {
         }
     }
 
-    private boolean isAvailableForPlacementMiddleBoth(int x,int y) {
+    private boolean isAvailableForPlacementMiddleBoth(int x, int y) {
         if (isEdgeCoordinate(x) || isEdgeCoordinate(y)) throw new UnexpectedEdgingCoordinatesException();
 
         for (int i = x - 1; i <= x + 1; i++) {
@@ -82,6 +82,10 @@ public class OwnBoard {
             }
         }
         return true;
+    }
+
+    private void placeBoat(int size) {
+//
     }
 
 }
