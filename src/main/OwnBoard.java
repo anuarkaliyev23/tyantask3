@@ -73,6 +73,7 @@ public class OwnBoard {
         }
     }
 
+
     private boolean isAvailableForPlacementMiddleBoth(int x, int y) {
         if (isEdgeCoordinate(x) || isEdgeCoordinate(y)) throw new UnexpectedEdgingCoordinatesException();
 
