@@ -12,6 +12,10 @@ public class Board {
 
     private boolean[][] board;
 
+    public void setCell(int x, int y, boolean value) {
+        board[x][y] = value;
+    }
+
     public Board() {
         board = new boolean[BOARD_SIZE][BOARD_SIZE];
         placeAllBoats();

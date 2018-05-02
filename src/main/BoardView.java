@@ -1,5 +1,7 @@
 package main;
 
+import main.exceptions.DoubleHitException;
+
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -14,14 +16,25 @@ public class BoardView {
         fillView(own);
     }
 
+    private boolean wasHit(int x, int y) {
+        return boardCellView[x][y] == BoardCellView.HIT || boardCellView[x][y] == BoardCellView.MISS;
+    }
+
     public boolean hit(int x, int y) {
+        if (wasHit(x, y)) throw new DoubleHitException();
+
+        boolean result;
         if (board.getValue(x, y)) {
             boardCellView[x][y] = BoardCellView.HIT;
-            return true;
+            result = true;
         } else {
             boardCellView[x][y] = BoardCellView.MISS;
-            return false;
+            result = false;
         }
+
+        board.setCell(x, y, false);
+        return result;
+
     }
 
     private void fillView(boolean own) {
