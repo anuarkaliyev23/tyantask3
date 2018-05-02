@@ -75,7 +75,6 @@ public class Board {
     private void placeBoat(int size) {
         if (size < 1 || size > MAX_BOAT_SIZE) throw new InvalidBoatSizeException();
 
-        System.out.println("Iteration");
         int x = ThreadLocalRandom.current().nextInt(BOARD_SIZE);
         int y = ThreadLocalRandom.current().nextInt(BOARD_SIZE);
 
@@ -83,21 +82,12 @@ public class Board {
         boolean vertical = true;
 
         if (x + size < BOARD_SIZE) {
-            System.out.println("X + SIZE: " + (x + size));
-            System.out.println("X : " + x);
-            System.out.println("SIZE : " + size);
-            System.out.println("Y : " + y);
             for (int i = x; i < x + size; i++) {
                 if (!isAvailableForPlacement(i, y)) availableFlag = false;
             }
         }
         else if (y + size < BOARD_SIZE) {
             vertical = false;
-
-            System.out.println("Y + SIZE:" + (y + size));
-            System.out.println("X : " + x);
-            System.out.println("SIZE : " + size);
-            System.out.println("Y : " + y);
             for (int j = y; j < y + size; j++) {
                 if (!isAvailableForPlacement(x, j)) availableFlag = false;
             }
@@ -108,22 +98,12 @@ public class Board {
 
         if (availableFlag) {
             if (vertical) {
-                for (int i = x; i < x + size - 1; i++) {
-                    System.out.println("Vertical");
-                    System.out.println("size: " + size);
-                    System.out.println("x: " + x);
-                    System.out.println("i : " + i);
-                    System.out.println("y: " + y);
+                for (int i = x; i < x + size; i++) {
                     board[i][y] = true;
                 }
             }
             else {
-                for (int j = y; j < y + size - 1; j++) {
-                    System.out.println("Horizontal:");
-                    System.out.println("size :" + size);
-                    System.out.println("x : " + x);
-                    System.out.println("j: " + j);
-                    System.out.println("y: " + y);
+                for (int j = y; j < y + size; j++) {
                     board[x][j] = true;
                 }
             }
