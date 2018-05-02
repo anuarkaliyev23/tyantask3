@@ -2,8 +2,6 @@ package main;
 
 import main.exceptions.InvalidBoatSizeException;
 import main.exceptions.OutOfBoundCoordinatesException;
-import main.exceptions.UnexpectedEdgingCoordinatesException;
-import main.exceptions.UnexpectedNotEdgingCoordinatesExceptions;
 
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
@@ -27,7 +25,7 @@ public class Board {
     }
 
     private void checkCoordinatesInBounds(int coordinate) {
-        if (coordinate < 0 || coordinate > BOARD_SIZE) throw new OutOfBoundCoordinatesException();
+        if (coordinate < 0 || coordinate >= BOARD_SIZE) throw new OutOfBoundCoordinatesException();
     }
 
     private void placeAllBoats() {
@@ -48,7 +46,7 @@ public class Board {
         return (coordinate == 0 || coordinate == BOARD_SIZE - 1);
     }
 
-    private boolean checkNeighbours(int x, int y) {
+    private boolean allNeighboursAreFalse(int x, int y) {
         checkCoordinatesInBounds(x);
         checkCoordinatesInBounds(y);
         for (int i = x - 1; i <= x + 1; i++) {
@@ -69,48 +67,68 @@ public class Board {
         checkCoordinatesInBounds(x);
         checkCoordinatesInBounds(y);
 
-        return checkNeighbours(x, y);
+        return allNeighboursAreFalse(x, y);
     }
 
 
 
     private void placeBoat(int size) {
-        if (size < 0 || size > MAX_BOAT_SIZE) throw new InvalidBoatSizeException();
+        if (size < 1 || size > MAX_BOAT_SIZE) throw new InvalidBoatSizeException();
 
         System.out.println("Iteration");
         int x = ThreadLocalRandom.current().nextInt(BOARD_SIZE);
         int y = ThreadLocalRandom.current().nextInt(BOARD_SIZE);
 
         boolean availableFlag = true;
-        boolean vertical;
+        boolean vertical = true;
 
         if (x + size < BOARD_SIZE) {
-            vertical = true;
+            System.out.println("X + SIZE: " + (x + size));
+            System.out.println("X : " + x);
+            System.out.println("SIZE : " + size);
+            System.out.println("Y : " + y);
             for (int i = x; i < x + size; i++) {
                 if (!isAvailableForPlacement(i, y)) availableFlag = false;
             }
-        } else if (y + size < BOARD_SIZE) {
+        }
+        else if (y + size < BOARD_SIZE) {
             vertical = false;
+
+            System.out.println("Y + SIZE:" + (y + size));
+            System.out.println("X : " + x);
+            System.out.println("SIZE : " + size);
+            System.out.println("Y : " + y);
             for (int j = y; j < y + size; j++) {
                 if (!isAvailableForPlacement(x, j)) availableFlag = false;
             }
-        } else {
-            vertical = false;
-            placeBoat(size);
+        }
+        else {
+            availableFlag = false;
         }
 
         if (availableFlag) {
             if (vertical) {
-                for (int i = x; i < x + size; i++) {
+                for (int i = x; i < x + size - 1; i++) {
+                    System.out.println("Vertical");
+                    System.out.println("size: " + size);
+                    System.out.println("x: " + x);
                     System.out.println("i : " + i);
+                    System.out.println("y: " + y);
                     board[i][y] = true;
                 }
-            } else {
-                for (int j = y; j < y + size; j++) {
+            }
+            else {
+                for (int j = y; j < y + size - 1; j++) {
+                    System.out.println("Horizontal:");
+                    System.out.println("size :" + size);
+                    System.out.println("x : " + x);
+                    System.out.println("j: " + j);
+                    System.out.println("y: " + y);
                     board[x][j] = true;
                 }
             }
-        } else {
+        }
+        else {
             placeBoat(size);
         }
     }
