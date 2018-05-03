@@ -1,4 +1,7 @@
-package main;
+package main.players;
+
+import main.boards.Board;
+import main.boards.BoardView;
 
 import java.util.Objects;
 

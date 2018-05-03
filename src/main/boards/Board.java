@@ -1,4 +1,4 @@
-package main;
+package main.boards;
 
 import main.exceptions.InvalidBoatSizeException;
 import main.exceptions.OutOfBoundCoordinatesException;

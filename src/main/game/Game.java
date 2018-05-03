@@ -1,5 +1,7 @@
-package main;
+package main.game;
 
+import main.players.Player;
+import main.boards.Board;
 import main.exceptions.TurnAfterFinishException;
 import main.exceptions.UnhandledGameStatusException;
 

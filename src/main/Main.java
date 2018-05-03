@@ -1,8 +1,9 @@
 package main;
 
 
+import main.boards.BoardView;
+
 import java.util.Scanner;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
     public static void main(String[] args) {
