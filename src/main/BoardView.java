@@ -16,6 +16,11 @@ public class BoardView {
         fillView(own);
     }
 
+    public BoardView(Board otherBoard, boolean own) {
+        this.board = new Board(otherBoard);
+        fillView(own);
+    }
+
     private boolean wasHit(int x, int y) {
         return boardCellView[x][y] == BoardCellView.HIT || boardCellView[x][y] == BoardCellView.MISS;
     }
@@ -61,6 +66,9 @@ public class BoardView {
         }
     }
 
+    public Board getBoard() {
+        return board;
+    }
 
     @Override
     public boolean equals(Object o) {

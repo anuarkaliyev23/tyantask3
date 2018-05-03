@@ -21,6 +21,16 @@ public class Board {
         placeAllBoats();
     }
 
+    public Board(Board other) {
+        board = new boolean[BOARD_SIZE][BOARD_SIZE];
+
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                board[i][j] = other.getBoard()[i][j];
+            }
+        }
+    }
+
     public boolean getValue(int x, int y) {
         checkCoordinatesInBounds(x);
         checkCoordinatesInBounds(y);
